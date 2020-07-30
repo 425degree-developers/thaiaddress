@@ -1,0 +1,9 @@
+joblib
+deepcut
+spacy
+pythainlp
+deepcut
+sklearn_crfsuite
+numpy
+pytest
+pytest-cov
