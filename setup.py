@@ -22,11 +22,11 @@ if __name__ == "__main__":
         version="0.1",
         description="A Python parser for Thai address",
         python_requires=">=3.6",
-        url="https://github.com/titipata/pubmed_parser",
-        download_url="https://github.com/titipata/pubmed_parser.git",
+        url="https://github.com/425degree-developers/thaiaddress",
+        download_url="https://github.com/425degree-developers/thaiaddress.git",
         author="Titipat Achakulvisut",
         author_email="my.titipat@gmail.com",
-        license=" (c) 2020 Titipat Achakulvisut",
+        license="Apache 2.0 (c) 2020 Titipat Achakulvisut, 425 Degree Co., Bangkok, Thailand",
         install_requires=[
             "joblib",
             "deepcut",
@@ -46,7 +46,6 @@ if __name__ == "__main__":
             "Natural Language Processing",
         ],
         classifiers=[
-            "Intended Audience :: Science/Research",
             "Intended Audience :: Developers",
             "License :: OSI Approved :: MIT License",
             "Programming Language :: Python",

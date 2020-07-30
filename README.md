@@ -6,6 +6,7 @@ Parser for Thai address.
 
 ```sh
 git clone https://github.com/425degree-developers/thaiaddress
+cd thaiaddress
 pip install .
 ```
 
