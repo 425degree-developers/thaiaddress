@@ -10,6 +10,9 @@ from .utils import (
     merge_tokens,
     merge_labels,
 )
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 
 # read model from models path, define colors for output classes
 MODULE_PATH = os.path.dirname(__file__)
