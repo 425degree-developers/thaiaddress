@@ -11,16 +11,16 @@ from .utils import (
     merge_labels,
 )
 
-# read
+# read model from models path, define colors for output classes
 MODULE_PATH = os.path.dirname(__file__)
-CRF_MODEL = joblib.load(op.join(MODULE_PATH, 'models', 'model.joblib'))
+CRF_MODEL = joblib.load(op.join(MODULE_PATH, "models", "model.joblib"))
 COLORS = {
     "NAME": "#fbd46d",
     "ADDR": "#ff847c",
     "LOC": "#87d4c5",
     "POST": "#def4f0",
     "PHONE": "#87d4c5",
-    "EMAIL": "#91a6b8"
+    "EMAIL": "#91a6b8",
 }
 
 
@@ -100,7 +100,7 @@ def tokens_to_features(tokens: list, i: int) -> dict:
     return features
 
 
-def parse(text: str, display: bool=False):
+def parse(text: str, display: bool = False):
     """
     Predict an input text
 
