@@ -3,7 +3,7 @@ import os.path as op
 import re
 import joblib
 from spacy import displacy
-import deepcut
+from pythainlp import tokenize
 from .utils import (
     preprocess,
     is_stopword,
@@ -104,7 +104,7 @@ def tokens_to_features(tokens: list, i: int) -> dict:
     return features
 
 
-def parse(text: str, display: bool = False) -> dict:
+def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     """
     Parse a given address text and give a dictionary of
     parsed address out
@@ -113,13 +113,15 @@ def parse(text: str, display: bool = False) -> dict:
     ----------
     text: str, input Thai address text to be parsed
     display: bool, if True, we will display parsed output
+    tokenize_engine: str, pythainlp tokenization engines default is deepcut
 
     Output
     ------
     address: dict, parsed output 
     """
     text = preprocess(text)
-    tokens = deepcut.tokenize(text)
+
+    tokens = tokenize.word_tokenize(text, engine=tokenize_engine)
     features = [tokens_to_features(tokens, i) for i in range(len(tokens))]
     preds = CRF_MODEL.predict([features])[0]
 
