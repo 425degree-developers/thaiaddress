@@ -5,7 +5,7 @@ from pythainlp.util import isthai
 from pythainlp.corpus import thai_stopwords
 
 
-def preprocess(text):
+def preprocess(text: str) -> str:
     """
     Generalized function to preprocess an input
     """
@@ -25,9 +25,9 @@ def preprocess(text):
     return text
 
 
-def get_digit(text):
+def get_digit(text: str) -> str:
     """
-    Get digit output 
+    Get digit output from a given text
     """
     return ''.join([c for c in text if c.isdigit()])
 
