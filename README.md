@@ -26,6 +26,6 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
 }
 ```
 
-### Display output
+### Display output on Jupyter notebook
 
 <img src="images/example-usage.png" />
