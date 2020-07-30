@@ -36,6 +36,8 @@ if __name__ == "__main__":
             "numpy",
             "pytest",
             "pytest-cov",
+            "scikit-learn",
+            "jsonlines",
         ],
         packages=find_packages(),
         include_package_data=True,
