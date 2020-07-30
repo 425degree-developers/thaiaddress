@@ -1,6 +1,6 @@
 # thaiaddress: A Parser for Thai Address
 
-Parser for Thai address.
+Parser for Thai address. ไลบรารี่เพื่อแยกแยะชื่อ/ที่อยู่/รหัสไปรษณีย์/เบอร์โทรศัพท์
 
 ## Installing
 
@@ -30,3 +30,11 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
 ### Display output on Jupyter notebook
 
 <img src="images/example-usage.png" />
+
+## Development Plan
+
+- This is an early version of our parser with very little data. We will make a better model relatively soon.
+
+## Developers
+
+- [425 Degree Co., Bangkok, Thailand](https://www.425degree.com/)
