@@ -25,3 +25,7 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
     'email': ''
 }
 ```
+
+### Display output
+
+<img src="images/example-usage.png" />
