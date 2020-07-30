@@ -38,6 +38,7 @@ if __name__ == "__main__":
             "pytest-cov",
         ],
         packages=find_packages(),
+        include_package_data=True,
         keywords=[
             "Parser",
             "Address",
