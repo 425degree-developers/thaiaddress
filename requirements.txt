@@ -1,9 +1,8 @@
-joblib
-deepcut
-spacy
-pythainlp
-deepcut
-sklearn_crfsuite
-numpy
-pytest
-pytest-cov
+joblib==0.16.0
+deepcut==0.7.0.0
+spacy==2.3.2
+pythainlp==2.2.2
+sklearn_crfsuite==0.3.6
+numpy==1.19.1
+pytest==6.0.1
+pytest-cov==2.10.0
