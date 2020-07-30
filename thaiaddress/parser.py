@@ -22,7 +22,7 @@ COLORS = {
     "ADDR": "#ff847c",
     "LOC": "#87d4c5",
     "POST": "#def4f0",
-    "PHONE": "#87d4c5",
+    "PHONE": "#ffbffe",
     "EMAIL": "#91a6b8",
 }
 
