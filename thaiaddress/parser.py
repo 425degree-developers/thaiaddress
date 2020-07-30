@@ -2,6 +2,8 @@ import os
 import os.path as op
 import re
 import joblib
+import pandas as pd
+from fuzzywuzzy import process
 from spacy import displacy
 from pythainlp import tokenize
 from .utils import (
@@ -16,8 +18,9 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 # read model from models path, define colors for output classes
-MODULE_PATH = os.path.dirname(__file__)
+MODULE_PATH = op.dirname(__file__)
 CRF_MODEL = joblib.load(op.join(MODULE_PATH, "models", "model.joblib"))
+ADDR_DF = pd.read_csv(op.join(MODULE_PATH, "data", "thai_address_data.csv"))
 COLORS = {
     "NAME": "#fbd46d",
     "ADDR": "#ff847c",
@@ -26,6 +29,33 @@ COLORS = {
     "PHONE": "#ffbffe",
     "EMAIL": "#91a6b8",
 }
+PROVINCES = list(ADDR_DF.province.unique())
+DISTRICTS = list(ADDR_DF.district.unique())
+SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
+
+
+def extract_location(text, option='province'):
+    """
+    Extract location from primary list
+    """
+    location = ''
+    options_map = {
+        'province': PROVINCES,
+        'district': DISTRICTS,
+        'subdistrict': SUBDISTRICTS
+    }
+    options = options_map.get(option)
+    try:
+        locs = [l for l, _ in process.extract(text, options, limit=3)]
+        locs.sort(key=len, reverse=False)
+        for loc in locs:
+            if loc in text:
+                location = loc
+        if location == '':
+            location = locs[0]
+    except:
+        pass
+    return location
 
 
 def display_entities(tokens: list, labels: list):
@@ -129,6 +159,9 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     name = "".join([token for token, c in preds_ if c == "NAME"]).strip()
     address = "".join([token for token, c in preds_ if c == "ADDR"]).strip()
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
+    province = extract_location(location, option='province')
+    district = extract_location(location, option='district')
+    subdistrict = extract_location(location, option='subdistrict')
     postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
     postal_code = "".join([p for p in postal_code if p.isdigit()])
     phone_number = " ".join([get_digit(token) for token, c in preds_
@@ -152,6 +185,9 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
         "name": name,
         "address": address,
         "location": location,
+        "province": province,
+        "district": district,
+        "subdistrict": subdistrict,
         "postal_code": postal_code,
         "phone_number": phone_number,
         "email": email,
