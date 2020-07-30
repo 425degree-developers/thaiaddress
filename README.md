@@ -21,6 +21,8 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
     'name': 'นายปรายุ้ด จันทร์กะเพรา',
     'address': '25/25 ถ.พุทธมณฑล สาย 4',
     'location': 'ต. ศาลายา อ.พุทธมณฑล จ.นครปฐม',
+    'district': 'พุทธมณฑล',
+    'subdistrict': 'ศาลายา',
     'postal_code': '73170',
     'phone_number': '0999999999',
     'email': ''
