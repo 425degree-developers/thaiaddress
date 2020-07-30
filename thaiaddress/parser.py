@@ -9,6 +9,7 @@ from .utils import (
     is_stopword,
     merge_tokens,
     merge_labels,
+    get_digit,
 )
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -103,14 +104,19 @@ def tokens_to_features(tokens: list, i: int) -> dict:
     return features
 
 
-def parse(text: str, display: bool = False):
+def parse(text: str, display: bool = False) -> dict:
     """
-    Predict an input text
+    Parse a given address text and give a dictionary of
+    parsed address out
 
     Parameters
     ----------
     text: str, input Thai address text to be parsed
     display: bool, if True, we will display parsed output
+
+    Output
+    ------
+    address: dict, parsed output 
     """
     text = preprocess(text)
     tokens = deepcut.tokenize(text)
@@ -123,7 +129,8 @@ def parse(text: str, display: bool = False):
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
     postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
     postal_code = "".join([p for p in postal_code if p.isdigit()])
-    phone_number = " ".join([token for token, c in preds_ if c == "PHONE"]).strip()
+    phone_number = " ".join([get_digit(token) for token, c in preds_
+                            if c == "PHONE" and len(token) > 1]).strip()
     phone_number = "".join([p for p in phone_number if p.isdigit()])
 
     email = "".join([token for token, c in preds_ if c == "EMAIL"]).strip()

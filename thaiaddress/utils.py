@@ -20,8 +20,17 @@ def preprocess(text):
     return text
 
 
+def get_digit(text):
+    """
+    Get digit output 
+    """
+    return ''.join([c for c in text if c.isdigit()])
+
+
 def is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย
     """
+    Check if a word is stop word or not using PyThaiNLP
+
     Reference
     ----------
     Pythainlp, https://github.com/PyThaiNLP/pythainlp
@@ -58,7 +67,11 @@ def merge_labels(preds: list):
 
 def merge_tokens(tokens: list, merge: list) -> list:
     """
-    Merge tokens with 
+    Merge tokens with an input merge
+
+    References
+    ----------
+    Stack Overflow, https://stackoverflow.com/questions/43550219/merge-elements-in-list-based-on-given-indices
     """
     for t in merge[::-1]:
         merged = "".join(tokens[t[0] : t[1]])  # merging values within a range
