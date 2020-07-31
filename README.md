@@ -14,7 +14,7 @@ pip install git+git://github.com/425degree-developers/thaiaddress.git
 or stable version from [PyPi](https://pypi.org/project/thaiaddress/0.1/) using
 
 ```sh
-pip install thaiaddress==0.1.1
+pip install thaiaddress==0.1.2
 ```
 
 ## Example Usage

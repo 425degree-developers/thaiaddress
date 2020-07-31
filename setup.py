@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import os
+import os.path as op
 from setuptools import setup, find_packages
 
 
@@ -8,8 +8,8 @@ def get_version():
     Get the version without importing, so as not to invoke dependency
     requirements.
     """
-    base, _ = os.path.split(os.path.realpath(__file__))
-    file = os.path.join(base, "pyglmnet", "__init__.py")
+    base, _ = op.split(op.realpath(__file__))
+    file = op.join(base, "thaiaddress", "__init__.py")
 
     for line in open(file, "r"):
         if "__version__" in line:
@@ -19,7 +19,7 @@ def get_version():
 if __name__ == "__main__":
     setup(
         name="thaiaddress",
-        version="0.1.1",
+        version=get_version(),
         description="A Python parser for Thai address",
         python_requires=">=3.6",
         url="https://github.com/425degree-developers/thaiaddress",

@@ -16,7 +16,7 @@
 # Dev branch marker is: 'X.Y.devN' where N is an integer.
 #
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from .parser import parse
 from .utils import (
