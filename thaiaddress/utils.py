@@ -25,6 +25,19 @@ def preprocess(text: str) -> str:
     return text
 
 
+def clean_location_text(text: str) -> str:
+    """
+    Clean location before using fuzzy string match
+    """
+    text = text.replace(" แขวง", "")
+    text = text.replace(" เขต", "")
+    text = text.replace(" อำเภอ", "")
+    text = text.replace(" ตำบล", "")
+    text = text.replace("ต.", " ")
+    text = text.replace("อ.", " ")
+    return text
+
+
 def get_digit(text: str) -> str:
     """
     Get digit output from a given text

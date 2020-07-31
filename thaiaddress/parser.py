@@ -12,6 +12,7 @@ from .utils import (
     merge_tokens,
     merge_labels,
     get_digit,
+    clean_location_text,
 )
 import warnings
 
@@ -30,7 +31,7 @@ COLORS = {
     "PHONE": "#ffbffe",
     "EMAIL": "#91a6b8",
 }
-PROVINCES = list(ADDR_DF.province.unique())
+PROVINCES = list(ADDR_DF.province.unique()) + ["กรุงเทพ"]
 DISTRICTS = list(ADDR_DF.district.unique())
 SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
 
@@ -51,6 +52,7 @@ def extract_location(text: str, option="province") -> str:
     location: str, output of location that best match with our
         primary text
     """
+    text = clean_location_text(text)
     location = ""
     options_map = {
         "province": PROVINCES,
@@ -65,7 +67,7 @@ def extract_location(text: str, option="province") -> str:
             if loc in text:
                 location = loc
         if location == "":
-            location = locs[0]
+            location, _ = [l for l, _ in process.extract(text, options, limit=3)][0]
     except:
         pass
     return location
@@ -172,6 +174,7 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     name = "".join([token for token, c in preds_ if c == "NAME"]).strip()
     address = "".join([token for token, c in preds_ if c == "ADDR"]).strip()
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
+
     province = extract_location(location, option="province")
     district = extract_location(location, option="district")
     subdistrict = extract_location(location, option="subdistrict")
