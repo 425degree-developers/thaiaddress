@@ -34,9 +34,21 @@ DISTRICTS = list(ADDR_DF.district.unique())
 SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
 
 
-def extract_location(text, option='province'):
+def extract_location(text: str, option='province') -> str:
     """
-    Extract location from primary list
+    Extract Thai province, district, or subdistrict
+    from a given text by providing options
+
+    Parameters
+    ----------
+    text: str, input Thai text of that contiains location
+    option: str, an option to parse. This can be ``province``,
+        ``district``, or ``subdistrict``
+    
+    Output
+    ------
+    location: str, output of location that best match with our
+        primary text
     """
     location = ''
     options_map = {
@@ -47,7 +59,7 @@ def extract_location(text, option='province'):
     options = options_map.get(option)
     try:
         locs = [l for l, _ in process.extract(text, options, limit=3)]
-        locs.sort(key=len, reverse=False)
+        locs.sort(key=len, reverse=False)  # sort from short to long string
         for loc in locs:
             if loc in text:
                 location = loc
