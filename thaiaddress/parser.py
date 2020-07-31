@@ -34,9 +34,11 @@ COLORS = {
 PROVINCES = list(ADDR_DF.province.unique()) + ["กรุงเทพ"]
 DISTRICTS = list(ADDR_DF.district.unique())
 SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
+DISTRICTS_DICT = ADDR_DF.groupby('province')['district'].apply(list)
+SUBDISTRICTS_DICT = ADDR_DF.groupby('province')['subdistrict'].apply(list)
 
 
-def extract_location(text: str, option="province") -> str:
+def extract_location(text: str, option="province", province=None) -> str:
     """
     Extract Thai province, district, or subdistrict
     from a given text by providing options
@@ -46,6 +48,8 @@ def extract_location(text: str, option="province") -> str:
     text: str, input Thai text of that contiains location
     option: str, an option to parse. This can be ``province``,
         ``district``, or ``subdistrict``
+    province: str or None, if provided, we will only search
+        for districts and subdistrcts within a given province
     
     Output
     ------
@@ -54,11 +58,18 @@ def extract_location(text: str, option="province") -> str:
     """
     text = clean_location_text(text)
     location = ""
-    options_map = {
-        "province": PROVINCES,
-        "district": DISTRICTS,
-        "subdistrict": SUBDISTRICTS,
-    }
+    if province is not None:
+        options_map = {
+            "province": PROVINCES,
+            "district": DISTRICTS_DICT.get(province, DISTRICTS),
+            "subdistrict": SUBDISTRICTS_DICT.get(province, SUBDISTRICTS),
+        }
+    else:
+        options_map = {
+            "province": PROVINCES,
+            "district": DISTRICTS,
+            "subdistrict": SUBDISTRICTS,
+        }
     options = options_map.get(option)
     try:
         locs = [l for l, _ in process.extract(text, options, limit=3)]
@@ -67,7 +78,7 @@ def extract_location(text: str, option="province") -> str:
             if loc in text:
                 location = loc
         if location == "":
-            location, _ = [l for l, _ in process.extract(text, options, limit=3)][0]
+            location = [l for l, _ in process.extract(text, options, limit=3)][0]
     except:
         pass
     return location
@@ -179,7 +190,7 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     if province == 'กรุงเทพ':
         province = 'กรุงเทพมหานคร'
     district = extract_location(location, option="district")
-    subdistrict = extract_location(location, option="subdistrict")
+    subdistrict = extract_location(location, option="subdistrict", province=province)
     postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
     postal_code = "".join([p for p in postal_code if p.isdigit()])
     phone_number = " ".join(
