@@ -57,6 +57,8 @@ def extract_location(text: str, option="province", province=None) -> str:
         primary text
     """
     # segment text
+    text = text.replace("\n-", " ")
+    text = text.replace("\n", " ")
     if option == "province":
         text = text.split("จ.")[-1].split("จังหวัด")[-1]
     elif option == "district":
@@ -64,7 +66,7 @@ def extract_location(text: str, option="province", province=None) -> str:
         text = text.split(" เขต")[-1]
     elif option == "subdistrict":
         text = text.split("ต.")[-1].split("อ.")[0].split("อำเภอ")[0]
-        text = text.split(" แขวง")[-1]
+        text = text.split(" แขวง")[-1].split(" เขต")[0]
     text = clean_location_text(text)
 
     location = ""
