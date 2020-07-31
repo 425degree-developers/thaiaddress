@@ -22,7 +22,9 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # read model from models path, define colors for output classes
 MODULE_PATH = op.dirname(__file__)
 CRF_MODEL = joblib.load(op.join(MODULE_PATH, "models", "model.joblib"))
-ADDR_DF = pd.read_csv(op.join(MODULE_PATH, "data", "thai_address_data.csv"))
+ADDR_DF = pd.read_csv(
+    op.join(MODULE_PATH, "data", "thai_address_data.csv"), dtype={"zipcode": str}
+)
 COLORS = {
     "NAME": "#fbd46d",
     "ADDR": "#ff847c",
@@ -36,9 +38,13 @@ DISTRICTS = list(ADDR_DF.district.unique())
 SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
 DISTRICTS_DICT = ADDR_DF.groupby("province")["district"].apply(list)
 SUBDISTRICTS_DICT = ADDR_DF.groupby("province")["subdistrict"].apply(list)
+DISTRICTS_POST_DICT = ADDR_DF.groupby("zipcode")["district"].apply(list)
+SUBDISTRICTS_POST_DICT = ADDR_DF.groupby("zipcode")["subdistrict"].apply(list)
 
 
-def extract_location(text: str, option="province", province=None) -> str:
+def extract_location(
+    text: str, option="province", province=None, postal_code=None
+) -> str:
     """
     Extract Thai province, district, or subdistrict
     from a given text by providing options
@@ -70,7 +76,13 @@ def extract_location(text: str, option="province", province=None) -> str:
     text = clean_location_text(text)
 
     location = ""
-    if province is not None:
+    if postal_code is not None and SUBDISTRICTS_POST_DICT.get(postal_code) is not None:
+        options_map = {
+            "province": PROVINCES,
+            "district": DISTRICTS_POST_DICT.get(postal_code, DISTRICTS),
+            "subdistrict": SUBDISTRICTS_POST_DICT.get(postal_code, SUBDISTRICTS),
+        }
+    elif province is not None:
         districts = []
         for d in DISTRICTS_DICT.get(province, DISTRICTS):
             if d != "พระนครศรีอยุธยา":
@@ -204,20 +216,24 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     address = "".join([token for token, c in preds_ if c == "ADDR"]).strip()
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
 
+    postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
+    postal_code = "".join([p for p in postal_code if p.isdigit()])
+
     if location != "":
         province = extract_location(location, option="province")
         if province == "กรุงเทพ":
             province = "กรุงเทพมหานคร"
-        district = extract_location(location, option="district", province=province)
+        district = extract_location(
+            location, option="district", province=province, postal_code=postal_code
+        )
         subdistrict = extract_location(
-            location, option="subdistrict", province=province
+            location, option="subdistrict", province=province, postal_code=postal_code
         )
     else:
         province = ""
         district = ""
         subdistrict = ""
-    postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
-    postal_code = "".join([p for p in postal_code if p.isdigit()])
+
     phone_number = " ".join(
         [get_digit(token) for token, c in preds_ if c == "PHONE" and len(token) > 1]
     ).strip()
