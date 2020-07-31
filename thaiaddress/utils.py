@@ -34,8 +34,11 @@ def clean_location_text(text: str) -> str:
     text = text.replace("อำเภอ", " ")
     text = text.replace("ตำบล", " ")
     text = text.replace("ต.", " ")
+    text = text.replace("ตฺ", "ต.")
     text = text.replace("อ.", " ")
     text = text.replace("จ.", " ")
+    text = text.replace("กทม.", "กรุงเทพมหานคร")
+    text = text.replace("กทม", "กรุงเทพมหานคร")
     return text
 
 

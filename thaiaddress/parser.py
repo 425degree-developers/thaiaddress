@@ -34,8 +34,8 @@ COLORS = {
 PROVINCES = list(ADDR_DF.province.unique()) + ["กรุงเทพ"]
 DISTRICTS = list(ADDR_DF.district.unique())
 SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
-DISTRICTS_DICT = ADDR_DF.groupby('province')['district'].apply(list)
-SUBDISTRICTS_DICT = ADDR_DF.groupby('province')['subdistrict'].apply(list)
+DISTRICTS_DICT = ADDR_DF.groupby("province")["district"].apply(list)
+SUBDISTRICTS_DICT = ADDR_DF.groupby("province")["subdistrict"].apply(list)
 
 
 def extract_location(text: str, option="province", province=None) -> str:
@@ -56,12 +56,24 @@ def extract_location(text: str, option="province", province=None) -> str:
     location: str, output of location that best match with our
         primary text
     """
+    if option == "province":
+        text = text.split("จ.")[-1].split("จังหวัด")[-1]
+    elif option == "district":
+        text = text.split("อ.")[-1].split("อำเภอ")[-1]
+    elif option == "subdistrict":
+        text = text.split("ต.")[-1].split("อ.")[0]
     text = clean_location_text(text)
     location = ""
     if province is not None:
+        districts = []
+        for d in DISTRICTS_DICT.get(province, DISTRICTS):
+            if d != "พระนครศรีอยุธยา":
+                districts.append(d.replace(province, ""))
+            else:
+                districts.append(d)
         options_map = {
             "province": PROVINCES,
-            "district": DISTRICTS_DICT.get(province, DISTRICTS),
+            "district": districts,
             "subdistrict": SUBDISTRICTS_DICT.get(province, SUBDISTRICTS),
         }
     else:
@@ -77,7 +89,7 @@ def extract_location(text: str, option="province", province=None) -> str:
         for loc in locs:
             if loc in text:
                 location = loc
-        if location == "":
+        if location == "" or location == "เมือง":
             location = [l for l, _ in process.extract(text, options, limit=3)][0]
     except:
         pass
@@ -188,10 +200,12 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
 
     if location != "":
         province = extract_location(location, option="province")
-        if province == 'กรุงเทพ':
-            province = 'กรุงเทพมหานคร'
-        district = extract_location(location, option="district")
-        subdistrict = extract_location(location, option="subdistrict", province=province)
+        if province == "กรุงเทพ":
+            province = "กรุงเทพมหานคร"
+        district = extract_location(location, option="district", province=province)
+        subdistrict = extract_location(
+            location, option="subdistrict", province=province
+        )
     else:
         province = ""
         district = ""
