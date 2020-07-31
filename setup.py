@@ -19,14 +19,14 @@ def get_version():
 if __name__ == "__main__":
     setup(
         name="thaiaddress",
-        version="0.1",
+        version="0.1.1",
         description="A Python parser for Thai address",
         python_requires=">=3.6",
         url="https://github.com/425degree-developers/thaiaddress",
         download_url="https://github.com/425degree-developers/thaiaddress.git",
         author="Titipat Achakulvisut",
         author_email="my.titipat@gmail.com",
-        license="Apache 2.0 (c) 2020 Titipat Achakulvisut, 425 Degree Co., Bangkok, Thailand",
+        license="Apache Software License 2.0 (c) 2020 Titipat Achakulvisut, 425 Degree Co., Bangkok, Thailand",
         install_requires=[
             "joblib",
             "deepcut",
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         ],
         classifiers=[
             "Intended Audience :: Developers",
-            "License :: OSI Approved :: MIT License",
+            "License :: OSI Approved :: Apache Software License",
             "Programming Language :: Python",
             "Topic :: Software Development",
             "Topic :: Scientific/Engineering",
