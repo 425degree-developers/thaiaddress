@@ -186,11 +186,16 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     address = "".join([token for token, c in preds_ if c == "ADDR"]).strip()
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
 
-    province = extract_location(location, option="province")
-    if province == 'กรุงเทพ':
-        province = 'กรุงเทพมหานคร'
-    district = extract_location(location, option="district")
-    subdistrict = extract_location(location, option="subdistrict", province=province)
+    if location != "":
+        province = extract_location(location, option="province")
+        if province == 'กรุงเทพ':
+            province = 'กรุงเทพมหานคร'
+        district = extract_location(location, option="district")
+        subdistrict = extract_location(location, option="subdistrict", province=province)
+    else:
+        province = ""
+        district = ""
+        subdistrict = ""
     postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
     postal_code = "".join([p for p in postal_code if p.isdigit()])
     phone_number = " ".join(
