@@ -4,10 +4,18 @@ Parser for Thai address. ไลบรารี่เพื่อแยกแย�
 
 ## Installing
 
+You can install using `pip` by
+
 ```sh
 git clone https://github.com/425degree-developers/thaiaddress
 cd thaiaddress
 pip install .
+```
+
+or install directly from the repository
+
+```sh
+pip install git+git://github.com/425degree-developers/thaiaddress.git
 ```
 
 ## Example Usage

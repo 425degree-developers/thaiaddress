@@ -176,6 +176,8 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
 
     province = extract_location(location, option="province")
+    if province == 'กรุงเทพ':
+        province = 'กรุงเทพมหานคร'
     district = extract_location(location, option="district")
     subdistrict = extract_location(location, option="subdistrict")
     postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()

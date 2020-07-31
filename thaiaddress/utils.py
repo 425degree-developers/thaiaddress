@@ -29,12 +29,13 @@ def clean_location_text(text: str) -> str:
     """
     Clean location before using fuzzy string match
     """
-    text = text.replace(" แขวง", "")
-    text = text.replace(" เขต", "")
-    text = text.replace(" อำเภอ", "")
-    text = text.replace(" ตำบล", "")
+    text = text.replace("แขวง", " ")
+    text = text.replace("เขต", " ")
+    text = text.replace("อำเภอ", " ")
+    text = text.replace("ตำบล", " ")
     text = text.replace("ต.", " ")
     text = text.replace("อ.", " ")
+    text = text.replace("จ.", " ")
     return text
 
 
