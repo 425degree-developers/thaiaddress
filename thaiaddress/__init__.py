@@ -25,4 +25,6 @@ from .utils import (
     merge_tokens,
     merge_labels,
 )
-from .train import train
+from .train import (
+    train,
+)

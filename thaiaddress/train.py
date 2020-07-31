@@ -77,7 +77,7 @@ def addresses_to_features(addresses: list):
     return X, y
 
 
-def train(file_path: str):
+def train(file_path: str, model_path: str = None):
     """
     Training CRF model from a given ``file_path``
     """
@@ -97,7 +97,13 @@ def train(file_path: str):
 
     # prediction score on validation set
     y_pred = crf.predict(X_val)
-    metrics.flat_f1_score(
+    f1_score = metrics.flat_f1_score(
         y_val, y_pred, average="weighted", labels=[l for l in LABELS if l != "O"]
     )
+    print("Flat F1-Score on validation set = {}".format(f1_score))
+
+    if model_path:
+        joblib.dump(crf, model_path)
+        print("Save model to {}".format(model_path))
+
     return crf
