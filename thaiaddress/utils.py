@@ -11,6 +11,7 @@ def preprocess(text: str) -> str:
     """
     text = text.strip()
     text = text.replace("จัดส่ง", "")
+    text = text.replace("ชือ.", "")
     text = text.replace("ชื่อ ", "")
     text = text.replace("ผู้รับ", "")
     text = text.replace("ส่งที่ ", " ")
@@ -21,6 +22,8 @@ def preprocess(text: str) -> str:
     text = text.replace("\n-", " ")
     text = text.replace("\n", " ")
     text = text.replace(": ", " ")
+    text = text.replace("(", "")
+    text = text.replace(")", "")
     text = " ".join([t for t in text.strip().split(" ") if t.strip() != ""])
     return text
 
