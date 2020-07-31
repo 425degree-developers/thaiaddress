@@ -29,7 +29,7 @@ def get_digit(text: str) -> str:
     """
     Get digit output from a given text
     """
-    return ''.join([c for c in text if c.isdigit()])
+    return "".join([c for c in text if c.isdigit()])
 
 
 def is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย

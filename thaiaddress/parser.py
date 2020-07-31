@@ -14,6 +14,7 @@ from .utils import (
     get_digit,
 )
 import warnings
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
@@ -34,7 +35,7 @@ DISTRICTS = list(ADDR_DF.district.unique())
 SUBDISTRICTS = list(ADDR_DF.subdistrict.unique())
 
 
-def extract_location(text: str, option='province') -> str:
+def extract_location(text: str, option="province") -> str:
     """
     Extract Thai province, district, or subdistrict
     from a given text by providing options
@@ -50,11 +51,11 @@ def extract_location(text: str, option='province') -> str:
     location: str, output of location that best match with our
         primary text
     """
-    location = ''
+    location = ""
     options_map = {
-        'province': PROVINCES,
-        'district': DISTRICTS,
-        'subdistrict': SUBDISTRICTS
+        "province": PROVINCES,
+        "district": DISTRICTS,
+        "subdistrict": SUBDISTRICTS,
     }
     options = options_map.get(option)
     try:
@@ -63,7 +64,7 @@ def extract_location(text: str, option='province') -> str:
         for loc in locs:
             if loc in text:
                 location = loc
-        if location == '':
+        if location == "":
             location = locs[0]
     except:
         pass
@@ -171,13 +172,14 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     name = "".join([token for token, c in preds_ if c == "NAME"]).strip()
     address = "".join([token for token, c in preds_ if c == "ADDR"]).strip()
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
-    province = extract_location(location, option='province')
-    district = extract_location(location, option='district')
-    subdistrict = extract_location(location, option='subdistrict')
+    province = extract_location(location, option="province")
+    district = extract_location(location, option="district")
+    subdistrict = extract_location(location, option="subdistrict")
     postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
     postal_code = "".join([p for p in postal_code if p.isdigit()])
-    phone_number = " ".join([get_digit(token) for token, c in preds_
-                            if c == "PHONE" and len(token) > 1]).strip()
+    phone_number = " ".join(
+        [get_digit(token) for token, c in preds_ if c == "PHONE" and len(token) > 1]
+    ).strip()
     phone_number = "".join([p for p in phone_number if p.isdigit()])
 
     email = "".join([token for token, c in preds_ if c == "EMAIL"]).strip()
