@@ -56,13 +56,17 @@ def extract_location(text: str, option="province", province=None) -> str:
     location: str, output of location that best match with our
         primary text
     """
+    # segment text
     if option == "province":
         text = text.split("จ.")[-1].split("จังหวัด")[-1]
     elif option == "district":
         text = text.split("อ.")[-1].split("อำเภอ")[-1]
+        text = text.split(" เขต")[-1]
     elif option == "subdistrict":
-        text = text.split("ต.")[-1].split("อ.")[0]
+        text = text.split("ต.")[-1].split("อ.")[0].split("อำเภอ")[0]
+        text = text.split(" แขวง")[-1]
     text = clean_location_text(text)
+
     location = ""
     if province is not None:
         districts = []
@@ -234,9 +238,9 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
         "name": name,
         "address": address,
         "location": location,
-        "province": province,
-        "district": district,
         "subdistrict": subdistrict,
+        "district": district,
+        "province": province,
         "postal_code": postal_code,
         "phone_number": phone_number,
         "email": email,
