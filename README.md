@@ -40,4 +40,6 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
 
 ## Developers
 
-- [425 Degree Co., Bangkok, Thailand](https://www.425degree.com/)
+This repository is developed at [425 Degree Co., Bangkok, Thailand](https://www.425degree.com/)
+
+<img src="images/425degree-logo.png" />
