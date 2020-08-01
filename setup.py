@@ -21,6 +21,8 @@ if __name__ == "__main__":
         name="thaiaddress",
         version=get_version(),
         description="A Python parser for Thai address",
+        long_description=open("README.md").read(),
+        long_description_content_type='text/markdown',
         python_requires=">=3.6",
         url="https://github.com/425degree-developers/thaiaddress",
         download_url="https://github.com/425degree-developers/thaiaddress.git",

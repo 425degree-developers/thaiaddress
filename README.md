@@ -2,7 +2,7 @@
 
 Parser for Thai address. ไลบรารี่เพื่อแยกแยะชื่อ/ที่อยู่/รหัสไปรษณีย์/เบอร์โทรศัพท์
 
-## Installing
+## Installation
 
 You can install a recent development (recommended) using `pip` directly
 from the repository
@@ -11,10 +11,10 @@ from the repository
 pip install git+git://github.com/425degree-developers/thaiaddress.git
 ```
 
-or stable version from [PyPi](https://pypi.org/project/thaiaddress/0.1/) using
+or stable version from [PyPi](https://pypi.org/project/thaiaddress/) using
 
 ```sh
-pip install thaiaddress==0.1.2
+pip install thaiaddress
 ```
 
 ## Example Usage
@@ -39,7 +39,7 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
 
 ### Display output on Jupyter notebook
 
-<img src="images/example-usage.png" />
+<img src="https://raw.githubusercontent.com/425degree-developers/thaiaddress/master/images/example-usage.png" />
 
 ## Development Plan
 
@@ -49,4 +49,4 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
 
 This repository is developed at [425 Degree Co., Bangkok, Thailand](https://www.425degree.com/)
 
-<img src="images/425degree-logo.png" />
+<img src="https://raw.githubusercontent.com/425degree-developers/thaiaddress/master/images/425degree-logo.png" />
