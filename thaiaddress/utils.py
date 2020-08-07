@@ -1,3 +1,4 @@
+import re
 from itertools import groupby
 import numpy as np
 import deepcut
@@ -5,11 +6,28 @@ from pythainlp.util import isthai
 from pythainlp.corpus import thai_stopwords
 
 
+def remove_emoji(text):
+    """
+    Remove emojis from a given text
+    """
+    regrex_pattern = re.compile(
+        pattern="["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+        "]+",
+        flags=re.UNICODE,
+    )
+    return regrex_pattern.sub(r"", text)
+
+
 def preprocess(text: str) -> str:
     """
     Generalized function to preprocess an input
     """
     text = text.strip()
+    text = text.replace("ส่ง ", "")
     text = text.replace("จัดส่ง", "")
     text = text.replace("ชือ.", "")
     text = text.replace("ชื่อ ", "")
@@ -17,6 +35,7 @@ def preprocess(text: str) -> str:
     text = text.replace("ส่งที่ ", " ")
     text = text.replace("ที่อยู่ ", " ")
     text = text.replace("ที้อยุ่ ", " ")
+    text = text.replace("ที่อยู่จ้า ", " ")
     text = text.replace("ส่งของที่ ", " ")
     text = text.replace("ส่งมาที่", " ")
     text = text.replace("\n-", " ")
@@ -24,6 +43,8 @@ def preprocess(text: str) -> str:
     text = text.replace(": ", " ")
     text = text.replace("(", "")
     text = text.replace(")", "")
+    text = text.replace('"', "")
+    text = remove_emoji(text)
     text = " ".join([t for t in text.strip().split(" ") if t.strip() != ""])
     return text
 

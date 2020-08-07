@@ -216,8 +216,8 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
     address = "".join([token for token, c in preds_ if c == "ADDR"]).strip()
     location = "".join([token for token, c in preds_ if c == "LOC"]).strip()
 
-    postal_code = " ".join([token for token, c in preds_ if c == "POST"]).strip()
-    postal_code = "".join([p for p in postal_code if p.isdigit()])
+    postal_code = "; ".join([token for token, c in preds_ if c == "POST"]).strip()
+    postal_code = "".join([p for p in postal_code if (p.isdigit() or p == ";")])
 
     if location != "":
         province = extract_location(location, option="province")
@@ -235,9 +235,13 @@ def parse(text: str, display: bool = False, tokenize_engine="deepcut") -> dict:
         subdistrict = ""
 
     phone_number = " ".join(
-        [get_digit(token) for token, c in preds_ if c == "PHONE" and len(token) > 1]
+        [
+            get_digit(token.replace("-", ""))
+            for token, c in preds_
+            if c == "PHONE" and len(token) > 1
+        ]
     ).strip()
-    phone_number = "".join([p for p in phone_number if p.isdigit()])
+    phone_number = "".join([p for p in phone_number if (p.isdigit() or p == ";")])
 
     email = "".join([token for token, c in preds_ if c == "EMAIL"]).strip()
     if email == "":

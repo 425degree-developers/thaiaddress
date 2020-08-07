@@ -3,6 +3,8 @@
 
 *.ipynb
 .vscode/
+*.jsonl
+*.json1
 
 ### Emacs ###
 # -*- mode: gitignore; -*-

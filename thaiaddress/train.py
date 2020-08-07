@@ -6,7 +6,7 @@ from sklearn_crfsuite import metrics, CRF
 from sklearn.model_selection import train_test_split
 
 from .parser import tokens_to_features
-from .utils import range_intersect
+from .utils import range_intersect, preprocess
 
 
 LABELS_MAP = {
@@ -77,14 +77,40 @@ def addresses_to_features(addresses: list):
     return X, y
 
 
-def train(file_path: str, model_path: str = None):
+def read_file(file_path: str) -> list:
     """
-    Training CRF model from a given ``file_path``
+    Read traning path in JSON and return it into a list
     """
     addresses = []
     with jsonlines.open(file_path) as reader:
         for obj in reader:
             addresses.append(obj)
+    return addresses
+
+
+def save_to_file(addresses: list, file_path: str, clean_text=True):
+    """
+    Save list of addresses into a JSON line file
+    """
+    if isinstance(addresses[0], str):
+        if clean_text:
+            addresses = [{"text": preprocess(address)} for address in addresses]
+        else:
+            addresses = [{"text": address} for address in addresses]
+    else:
+        print("Address has to be a list of addresses string")
+        return
+    with jsonlines.open(file_path, mode="w") as writer:
+        for address in addresses:
+            writer.write(address)
+    print("Done saving to {}".format(file_path))
+
+
+def train(file_path: str, model_path: str = None):
+    """
+    Training CRF model from a given ``file_path``
+    """
+    addresses = read_file(file_path)
     addresses_train, addresses_val = train_test_split(
         addresses, test_size=0.25, random_state=42
     )

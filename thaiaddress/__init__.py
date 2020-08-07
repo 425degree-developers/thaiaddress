@@ -26,5 +26,6 @@ from .utils import (
     merge_labels,
 )
 from .train import (
+    read_file,
     train,
 )
