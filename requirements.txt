@@ -10,3 +10,5 @@ pytest-cov==2.10.0
 jsonlines==1.15.0
 fuzzywuzzy
 pandas
+eli5
+scipy

@@ -41,7 +41,9 @@ if __name__ == "__main__":
             "scikit-learn",
             "jsonlines",
             "fuzzywuzzy",
-            "pandas"
+            "pandas",
+            "eli5",
+            "scipy"
         ],
         packages=find_packages(),
         include_package_data=True,

@@ -152,6 +152,7 @@ def tokens_to_features(tokens: list, i: int) -> dict:
     features = {
         "bias": 1.0,
         "word.word": word,
+        "word[:3]": word[:3],
         "word.isspace()": word.isspace(),
         "word.is_stopword()": is_stopword(word),
         "word.isdigit()": word.isdigit(),
