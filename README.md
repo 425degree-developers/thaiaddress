@@ -2,6 +2,8 @@
 
 Parser for Thai address. ไลบรารี่เพื่อแยกแยะชื่อ/ที่อยู่/รหัสไปรษณีย์/เบอร์โทรศัพท์
 
+สำหรับรายละเอียดเพิ่มเติมสามารถดูได้จาก [Data Science meetup, BKK #11](https://www.youtube.com/watch?v=0tPkQR_vXwc)
+
 ## Installation
 
 You can install a recent development (recommended) using `pip` directly

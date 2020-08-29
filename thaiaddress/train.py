@@ -120,29 +120,22 @@ def train(file_path: str, model_path: str = None):
     X_train, y_train = addresses_to_features(addresses_train)
     X_val, y_val = addresses_to_features(addresses_val)
 
-    crfs = CRF(
-        algorithm='lbfgs',
-        max_iterations=100,
-        all_possible_transitions=True
-    )
+    crfs = CRF(algorithm="lbfgs", max_iterations=100, all_possible_transitions=True)
     params_space = {
-        'c1': scipy.stats.expon(scale=0.5),
-        'c2': scipy.stats.expon(scale=0.05),
+        "c1": scipy.stats.expon(scale=0.5),
+        "c2": scipy.stats.expon(scale=0.05),
     }
 
     f1_scorer = make_scorer(
         metrics.flat_f1_score,
-        average='weighted',
-        labels=[l for l in LABELS if l != "O"]
+        average="weighted",
+        labels=[l for l in LABELS if l != "O"],
     )
 
     # search
-    rs = RandomizedSearchCV(crfs, params_space,
-                            cv=3,
-                            verbose=1,
-                            n_jobs=-1,
-                            n_iter=50,
-                            scoring=f1_scorer)
+    rs = RandomizedSearchCV(
+        crfs, params_space, cv=3, verbose=1, n_jobs=-1, n_iter=50, scoring=f1_scorer
+    )
     rs.fit(X_train, y_train)
     crf = rs.best_estimator_  # get best estimator
 
