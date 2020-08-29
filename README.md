@@ -39,6 +39,11 @@ thaiaddress.parse("นายปรายุ้ด จันทร์กะเพ
 }
 ```
 
+### Model Performance
+
+We don't have an exact performance yet. So far, we got flat F1-score = 0.9414 (excluding "O" class),
+on our validation set.
+
 ### Display output on Jupyter notebook
 
 <img src="https://raw.githubusercontent.com/425degree-developers/thaiaddress/master/images/example-usage.png" />
