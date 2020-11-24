@@ -2,6 +2,12 @@
 import os.path as op
 from setuptools import setup, find_packages
 
+long_description = """
+thaiaddress: A Parser for Thai Address
+
+Parser for Thai address. ไลบรารี่เพื่อแยกแยะชื่อ ที่อยู่ รหัสไปรษณีย์ และเบอร์โทรศัพท์
+"""
+
 
 def get_version():
     """
@@ -21,7 +27,7 @@ if __name__ == "__main__":
         name="thaiaddress",
         version=get_version(),
         description="A Python parser for Thai address",
-        long_description=open("README.md").read(),
+        long_description=long_description,
         long_description_content_type='text/markdown',
         python_requires=">=3.6",
         url="https://github.com/425degree-developers/thaiaddress",
